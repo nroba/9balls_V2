@@ -37,17 +37,17 @@ h1 {
   height: 100px;
   overflow: visible;
   transition: transform 0.6s ease, opacity 0.6s ease;
+  opacity: 0.5; /*初期状態で薄くする */
 }
+
 
 /* 転がるアニメーション（ボール+ラベル一体で動く） */
 .ball-wrapper.roll-left {
   transform: translateX(-60px) rotate(-360deg);
-  opacity: 0.5;
 }
 
 .ball-wrapper.roll-right {
   transform: translateX(60px) rotate(360deg);
-  opacity: 0.5;
 }
 
 /* ボール画像 */
