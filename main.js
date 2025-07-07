@@ -1,6 +1,7 @@
 const grid = document.getElementById("ballGrid");
 const popup = document.getElementById("popup");
 const resetBtn = document.getElementById("resetBtn");
+const registBtn = document.getElementById("registBtn");
 
 let score1 = 0;
 let score2 = 0;
@@ -176,9 +177,16 @@ resetBtn.addEventListener("click", () => {
   }
 });
 
+registBtn.addEventListener("click", () => {
+  // TODO: データベース登録機能をここに追加
+  alert("登録機能は今後実装予定です。");
+});
+
+
 // PWA Service Worker 登録
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js')
     .then(() => console.log("Service Worker Registered"))
     .catch(err => console.error("SW registration failed:", err));
 }
+
