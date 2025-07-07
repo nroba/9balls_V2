@@ -1,4 +1,3 @@
-/* 全体レイアウト */
 @font-face {
   font-family: 'TanukiMagic';
   src: url('/fonts/TanukiMagic.ttf') format('truetype');
@@ -36,18 +35,15 @@ h1 {
   margin-top: 1em;
 }
 
-/* ボールとラベルを囲む要素 */
 .ball-wrapper {
   position: relative;
   width: 100px;
   height: 100px;
   overflow: visible;
   transition: transform 0.6s ease, opacity 0.6s ease;
-  opacity: 0.5; /*初期状態で薄くする */
+  opacity: 0.5;
 }
 
-
-/* 転がるアニメーション（ボール+ラベル一体で動く） */
 .ball-wrapper.roll-left {
   transform: translateX(-60px) rotate(-360deg);
 }
@@ -56,7 +52,6 @@ h1 {
   transform: translateX(60px) rotate(360deg);
 }
 
-/* ボール画像 */
 .ball {
   width: 100%;
   height: 100%;
@@ -64,7 +59,6 @@ h1 {
   touch-action: none;
 }
 
-/* 倍率ラベル（ボールの右下に重なる） */
 .ball-multiplier {
   position: absolute;
   bottom: 5px;
@@ -80,7 +74,6 @@ h1 {
   z-index: 10;
 }
 
-/* ラベルのバウンドアニメーション */
 @keyframes bounce {
   0%   { transform: scale(1); }
   30%  { transform: scale(1.4); }
@@ -92,8 +85,43 @@ h1 {
   animation: bounce 0.4s ease;
 }
 
-/* ポップアップ */
+/* registBtn bounce animation */
+@keyframes bounceRegist {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.3); }
+  60%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+#registBtn {
+  width: 200px;
+  height: 150px;
+  transition: transform 0.2s ease;
+}
+
+#registBtn.clicked {
+  animation: bounceRegist 0.5s ease;
+}
+
+/* ボタン横並び */
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  object-fit: contain;
+}
+
+.icon-button {
+  height: 100px;
+  width: 130px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
 .popup {
+  font-family: 'TanukiMagic', sans-serif;
   position: fixed;
   top: 30%;
   left: 50%;
@@ -105,37 +133,4 @@ h1 {
   font-size: 1.4em;
   display: none;
   z-index: 1000;
-}
-
-/* リセットボタン */
-#resetBtn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1em;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#resetBtn:hover {
-  background-color: #1976d2;
-}
-
-.button-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.icon-button {
-  width: 100px;
-  height: auto;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.icon-button:hover {
-  transform: scale(1.05);
 }

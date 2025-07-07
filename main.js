@@ -8,18 +8,16 @@ let score2 = 0;
 
 const ballState = {};
 
-// 🔊 効果音（重ね再生）
 function playSoundOverlap(src) {
   const sound = new Audio(src);
   sound.play().catch((e) => console.warn("音声再生エラー:", e));
 }
 
-// 💡 アニメーションクラスの再発火＋濃くする
 function restartAnimation(el, className) {
   el.classList.remove("roll-left", "roll-right");
   void el.offsetWidth;
   el.classList.add(className);
-  el.style.opacity = "1";  // スワイプ後に濃く表示
+  el.style.opacity = "1";
 }
 
 function updateScoreDisplay() {
@@ -65,10 +63,16 @@ function recalculateScores() {
   updateScoreDisplay();
 }
 
+function animateClick(button) {
+  button.classList.remove("clicked");
+  void button.offsetWidth;
+  button.classList.add("clicked");
+}
+
 for (let i = 1; i <= 9; i++) {
   const wrapper = document.createElement("div");
   wrapper.classList.add("ball-wrapper");
-  wrapper.style.opacity = "0.5"; // 🔻 初期状態で薄く
+  wrapper.style.opacity = "0.5";
 
   const img = document.createElement("img");
   img.src = `images/ball${i}.png`;
@@ -125,7 +129,7 @@ for (let i = 1; i <= 9; i++) {
         ballState[i].assigned = null;
         ballState[i].swiped = false;
         wrapperEl.classList.remove("roll-left", "roll-right");
-        wrapperEl.style.opacity = "0.5"; // 🔻 戻す
+        wrapperEl.style.opacity = "0.5";
         playSoundOverlap("sounds/cancel.mp3");
       }
     }
@@ -133,18 +137,12 @@ for (let i = 1; i <= 9; i++) {
     recalculateScores();
   };
 
-  // タッチ操作
   wrapper.addEventListener("touchstart", (e) => onStart(e.touches[0].clientX));
   wrapper.addEventListener("touchend", (e) => onEnd(e.changedTouches[0].clientX));
-
-  // マウス操作
   wrapper.addEventListener("mousedown", (e) => onStart(e.clientX));
   wrapper.addEventListener("mouseup", (e) => onEnd(e.clientX));
-
-  // タップで倍率切替
   wrapper.addEventListener("click", () => {
     if (!ballState[i].swiped) return;
-
     if (ballState[i].multiplier === 1) {
       ballState[i].multiplier = 2;
       showPopup("サイド（得点×2）");
@@ -152,24 +150,22 @@ for (let i = 1; i <= 9; i++) {
       ballState[i].multiplier = 1;
       showPopup("コーナー（得点×1）");
     }
-
     updateMultiplierLabel(i);
     playSoundOverlap("sounds/side.mp3");
     recalculateScores();
   });
 }
 
-// 🔁 リセット
 resetBtn.addEventListener("click", () => {
+  animateClick(resetBtn);
   score1 = 0;
   score2 = 0;
   updateScoreDisplay();
-
   for (let i = 1; i <= 9; i++) {
     const state = ballState[i];
     const wrapperEl = state.wrapper;
     wrapperEl.classList.remove("roll-left", "roll-right");
-    wrapperEl.style.opacity = "0.5"; // 初期の薄さ
+    wrapperEl.style.opacity = "0.5";
     state.swiped = false;
     state.assigned = null;
     state.multiplier = 1;
@@ -178,15 +174,12 @@ resetBtn.addEventListener("click", () => {
 });
 
 registBtn.addEventListener("click", () => {
-  // TODO: データベース登録機能をここに追加
-  alert("登録機能は今後実装予定です。");
+  animateClick(registBtn);
+  alert("登録機能は今後実装予定");
 });
 
-
-// PWA Service Worker 登録
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js')
     .then(() => console.log("Service Worker Registered"))
     .catch(err => console.error("SW registration failed:", err));
 }
-
